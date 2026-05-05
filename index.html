@@ -7,48 +7,123 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
   <style>
-    :root { --deep: #061520; --accent: #00c9d4; --foam: #e8f4f8; --text: #dde8ed; --muted: #6d96aa; --card-bg: #0d2b3e; --border: rgba(0,201,212,0.15); --good: #2ecc71; --fair: #f39c12; --poor: #e74c3c; --ocean: #0a2233; }
+    :root {
+      --deep:    #061520;
+      --accent:  #00c9d4;
+      --foam:    #e8f4f8;
+      --text:    #dde8ed;
+      --muted:   #6d96aa;
+      --card-bg: #0d2b3e;
+      --border:  rgba(0,201,212,0.15);
+      --good:    #2ecc71;
+      --fair:    #f39c12;
+      --poor:    #e74c3c;
+      --ocean:   #0a2233;
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { font-family: 'DM Sans', sans-serif; background: var(--deep); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; opacity: .4; }
+
+    /* HEADER */
     header { position: relative; padding: 3.5rem 2rem 2.5rem; text-align: center; overflow: hidden; border-bottom: 1px solid var(--border); }
-    .wave-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 120%, rgba(26,127,168,0.18) 0%, transparent 70%); pointer-events: none; }
+    header::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
+    .wave-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 120%, rgba(26,127,168,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% -10%, rgba(0,201,212,0.08) 0%, transparent 60%); pointer-events: none; }
     .site-tag { font-size: .72rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin-bottom: .8rem; position: relative; }
     h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 10vw, 6.5rem); letter-spacing: .04em; line-height: 1; color: var(--foam); position: relative; }
     h1 span { color: var(--accent); }
     .subtitle { margin-top: 1rem; font-size: 1rem; font-weight: 300; color: var(--muted); max-width: 500px; margin-inline: auto; line-height: 1.55; position: relative; }
+
+    /* NAV */
     .top-nav { padding: 1.2rem 1.5rem 1rem; border-bottom: 1px solid var(--border); position: relative; }
     .nav-province { margin-bottom: .7rem; }
+    .nav-province:last-child { margin-bottom: 0; }
     .nav-province-label { font-size: .6rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: .4rem; }
     .nav-links { display: flex; flex-wrap: wrap; gap: .35rem; }
-    .nav-links a { font-size: .71rem; font-weight: 500; text-transform: uppercase; text-decoration: none; color: var(--muted); background: rgba(255,255,255,0.04); border: 1px solid var(--border); padding: .3rem .75rem; border-radius: 2px; transition: color .2s, background .2s; }
-    .nav-links a:hover { color: var(--accent); background: rgba(0,201,212,0.08); }
+    .nav-links a { font-size: .71rem; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; text-decoration: none; color: var(--muted); background: rgba(255,255,255,0.04); border: 1px solid var(--border); padding: .3rem .75rem; border-radius: 2px; transition: color .2s, background .2s, border-color .2s; }
+    .nav-links a:hover { color: var(--accent); background: rgba(0,201,212,0.08); border-color: rgba(0,201,212,0.4); }
+
+    /* MAIN */
     main { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 5rem; position: relative; z-index: 1; }
+
+    /* PROVINCE */
     .province-section { padding-top: 3rem; }
     .province-header { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 2.2rem; padding-bottom: .9rem; border-bottom: 2px solid rgba(0,201,212,0.4); }
     .province-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); letter-spacing: .06em; color: var(--foam); }
-    .province-tag { font-size: .6rem; font-weight: 600; text-transform: uppercase; color: var(--ocean); background: var(--accent); padding: .2rem .55rem; border-radius: 1px; }
+    .province-tag { font-size: .6rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ocean); background: var(--accent); padding: .2rem .55rem; border-radius: 1px; }
     .province-divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,201,212,0.2), transparent); margin: 1rem 0 0; }
+
+    /* SPOT */
     .spot { margin-bottom: 3.5rem; scroll-margin-top: 2rem; animation: fadeUp .45s ease both; }
     .spot-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1rem; padding-bottom: .6rem; border-bottom: 1px solid var(--border); }
     .spot-number { font-family: 'Bebas Neue', sans-serif; font-size: .95rem; color: var(--accent); opacity: .65; min-width: 2.2rem; }
     .spot h3 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.4rem, 3vw, 2rem); letter-spacing: .06em; color: var(--foam); }
-    .spot-badge { font-size: .6rem; font-weight: 500; text-transform: uppercase; color: var(--ocean); background: rgba(0,201,212,0.65); padding: .18rem .48rem; border-radius: 1px; white-space: nowrap; }
+    .spot-badge { font-size: .6rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--ocean); background: rgba(0,201,212,0.65); padding: .18rem .48rem; border-radius: 1px; white-space: nowrap; }
     .spot p.desc { font-size: .88rem; line-height: 1.65; color: var(--muted); max-width: 680px; margin-bottom: 1.1rem; font-style: italic; }
+
+    /* ── SPOT WIDGET (pills + bars) ── */
+    .spot-widget {
+      margin-bottom: 1rem;
+      display: flex; flex-direction: column; gap: .6rem;
+    }
+    /* Pills row */
+    .sw-pills {
+      display: flex; gap: .5rem; flex-wrap: wrap;
+    }
+    .sw-pill {
+      display: flex; align-items: center; gap: .35rem;
+      background: rgba(0,0,0,0.25); border: 1px solid var(--border);
+      border-radius: 2px; padding: .32rem .65rem;
+    }
+    .sw-pill-icon { font-size: .95rem; line-height: 1; }
+    .sw-pill-val {
+      font-size: .95rem; font-weight: 700; letter-spacing: -.01em; line-height: 1;
+    }
+    .sw-pill-unit {
+      font-size: .62rem; color: var(--muted); font-weight: 400; align-self: flex-end; padding-bottom: 1px;
+    }
+    .sw-pill-label {
+      font-size: .58rem; color: var(--muted); text-transform: uppercase;
+      letter-spacing: .08em; font-weight: 500; align-self: flex-end; padding-bottom: 1px;
+    }
+
+
+    /* EMBEDS */
     .embed-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr)); }
     .embed-wrap { position: relative; width: 100%; padding-top: 56.25%; background: var(--card-bg); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; }
     .embed-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    /* IMG */
     .img-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
     .img-card { overflow: hidden; border-radius: 3px; border: 1px solid var(--border); background: var(--card-bg); }
     .img-card img { width: 100%; height: 300px; object-fit: cover; display: block; transition: transform .4s ease; }
     .img-card:hover img { transform: scale(1.03); }
+
+    /* LINK CARD */
     .link-card { display: flex; align-items: center; gap: 1rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 3px; padding: .85rem 1.1rem; text-decoration: none; color: var(--text); transition: border-color .2s, background .2s; margin-top: .6rem; }
     .link-card:hover { border-color: rgba(0,201,212,0.4); background: rgba(0,201,212,0.05); }
     .link-icon { font-size: 1.2rem; flex-shrink: 0; }
     .link-label { font-size: .83rem; color: var(--muted); }
     .link-url { font-size: .73rem; color: var(--accent); word-break: break-all; }
-    .windy-panel { margin-top: 1rem; border: 1px solid var(--border); border-radius: 3px; overflow: hidden; background: var(--card-bg); }
-    .windy-toggle { display: flex; align-items: center; justify-content: space-between; padding: .6rem 1rem; cursor: pointer; background: rgba(0,201,212,0.05); border-bottom: 1px solid transparent; transition: background .2s; user-select: none; }
+
+    /* ══════════════════════════════════════
+       WINDY EMBED PANEL
+    ══════════════════════════════════════ */
+    .windy-panel {
+      margin-top: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      background: var(--card-bg);
+    }
+    .windy-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .6rem 1rem; cursor: pointer;
+      background: rgba(0,201,212,0.05);
+      border-bottom: 1px solid transparent;
+      transition: background .2s;
+      user-select: none;
+    }
     .windy-toggle:hover { background: rgba(0,201,212,0.1); }
     .windy-toggle-label { font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: .5rem; }
     .windy-toggle-hint { font-size: .65rem; color: var(--muted); }
@@ -56,170 +131,444 @@
     .windy-body { display: none; }
     .windy-body.open { display: block; border-top: 1px solid var(--border); }
     .windy-body iframe { width: 100%; height: 380px; border: none; display: block; }
+
+    /* ══════════════════════════════════════
+       FORECAST WIDGET
+    ══════════════════════════════════════ */
     .forecast-widget { margin-top: 1rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; }
     .forecast-header { display: flex; align-items: center; justify-content: space-between; padding: .6rem 1rem; background: rgba(0,201,212,0.05); border-bottom: 1px solid var(--border); }
     .forecast-title { font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
     .forecast-updated { font-size: .62rem; color: var(--muted); }
     .forecast-loading { padding: 1.5rem; text-align: center; font-size: .8rem; color: var(--muted); }
     .forecast-error { padding: 1rem; font-size: .78rem; color: var(--poor); }
+
     .forecast-days { display: flex; border-bottom: 1px solid var(--border); }
     .day-tab { flex: 1; padding: .5rem; text-align: center; cursor: pointer; font-size: .7rem; font-weight: 500; color: var(--muted); border-right: 1px solid var(--border); background: transparent; transition: background .2s, color .2s; border-top: none; border-bottom: none; border-left: none; }
     .day-tab:last-child { border-right: none; }
     .day-tab.active { color: var(--accent); background: rgba(0,201,212,0.08); }
+    .day-tab:hover:not(.active) { background: rgba(255,255,255,0.03); color: var(--text); }
+
     .forecast-table { width: 100%; border-collapse: collapse; font-size: .8rem; }
     .forecast-table th { font-size: .58rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: .45rem .7rem; text-align: left; border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.15); white-space: nowrap; }
     .forecast-table td { padding: .42rem .7rem; border-bottom: 1px solid rgba(0,201,212,0.05); vertical-align: middle; white-space: nowrap; }
     .forecast-table tr:last-child td { border-bottom: none; }
+    .forecast-table tr:hover td { background: rgba(255,255,255,0.02); }
+
     .hour-label { color: var(--muted); font-size: .75rem; }
     .wave-val { font-weight: 600; }
     .period-val { color: var(--accent); font-weight: 500; }
     .dir-arrow { font-size: .95rem; }
     .wind-cell { display: flex; align-items: center; gap: .3rem; }
+
+    /* Power bar */
     .power-cell { display: flex; align-items: center; gap: .4rem; min-width: 80px; }
     .power-bar-bg { flex: 1; height: 5px; background: rgba(255,255,255,0.07); border-radius: 3px; overflow: hidden; min-width: 40px; }
     .power-bar-fill { height: 100%; border-radius: 3px; transition: width .3s; }
     .power-label { font-size: .72rem; font-weight: 600; min-width: 36px; text-align: right; }
+
+    .rating-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+    .rating-good { background: var(--good); box-shadow: 0 0 5px var(--good); }
+    .rating-fair { background: var(--fair); box-shadow: 0 0 5px var(--fair); }
+    .rating-poor { background: var(--poor); }
+    .rating-flat { background: #3a5a6a; }
+
     @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
     footer { text-align: center; padding: 2rem; border-top: 1px solid var(--border); font-size: .78rem; color: var(--muted); position: relative; z-index: 1; }
     footer a { color: var(--accent); text-decoration: none; }
-    @media (max-width: 600px) { header { padding: 2.5rem 1rem 2rem; } main { padding: 0 1rem 4rem; } .windy-body iframe { height: 300px; } }
+
+    @media (max-width: 600px) {
+      header { padding: 2.5rem 1rem 2rem; }
+      main { padding: 0 1rem 4rem; }
+      .forecast-table th, .forecast-table td { padding: .38rem .45rem; }
+      .windy-body iframe { height: 300px; }
+    }
   </style>
 </head>
 <body>
+
 <header>
   <div class="wave-bg"></div>
   <p class="site-tag">Webcams en tiempo real</p>
   <h1>Webcams Surf <span>Cataluña</span></h1>
   <p class="subtitle">Webcams de surf en la costa de Barcelona y Tarragona. Comprueba el mar antes de salir.</p>
 </header>
+
 <nav class="top-nav" aria-label="Spots">
-  <div class="nav-province"><span class="nav-province-label">Provincia de Barcelona</span><div class="nav-links"><a href="#barcelona-ciudad">Barcelona</a><a href="#port-ginesta">Port Ginesta</a><a href="#sitges">Sitges</a><a href="#prat">El Prat</a><a href="#masnou">Masnou</a><a href="#arenys">Arenys de Mar</a><a href="#vilassar">Vilassar</a><a href="#badalona">Badalona</a><a href="#st-pol">Sant Pol</a></div></div>
-  <div class="nav-province"><span class="nav-province-label">Provincia de Tarragona</span><div class="nav-links"><a href="#tarragona-ciudad">Tarragona</a><a href="#calafell">Calafell</a><a href="#torredembarra">Torredembarra</a><a href="#salou">Salou</a></div></div>
+  <div class="nav-province">
+    <span class="nav-province-label">Provincia de Barcelona</span>
+    <div class="nav-links">
+      <a href="#barcelona-ciudad">Barcelona</a>
+      <a href="#castelldefels">Castelldefels</a>
+      <a href="#port-ginesta">Port Ginesta</a>
+      <a href="#sitges">Sitges</a>
+      <a href="#prat">El Prat</a>
+      <a href="#masnou">Masnou</a>
+      <a href="#arenys">Arenys de Mar</a>
+      <a href="#vilassar">Vilassar</a>
+      <a href="#badalona">Badalona</a>
+      <a href="#st-pol">Sant Pol</a>
+    </div>
+  </div>
+  <div class="nav-province">
+    <span class="nav-province-label">Provincia de Tarragona</span>
+    <div class="nav-links">
+      <a href="#tarragona-ciudad">Tarragona</a>
+      <a href="#calafell">Calafell</a>
+      <a href="#torredembarra">Torredembarra</a>
+      <a href="#salou">Salou</a>
+    </div>
+  </div>
 </nav>
+
 <main>
+
+<!-- ══════════════════════════════
+     PROVINCIA DE BARCELONA
+══════════════════════════════ -->
 <div class="province-section">
-  <div class="province-header"><h2>Provincia de Barcelona</h2><span class="province-tag">Costa Garraf · Maresme</span></div>
+  <div class="province-header">
+    <h2>Provincia de Barcelona</h2>
+    <span class="province-tag">Costa Garraf · Maresme</span>
+  </div>
+
   <section class="spot" id="barcelona-ciudad">
     <div class="spot-header"><span class="spot-number">01</span><h3>Barcelona Ciudad</h3><span class="spot-badge">Barceloneta · Bogatell · Mar Bella</span></div>
+    <div class="spot-widget" id="sp-barcelona-ciudad"><div style="font-size:.65rem;color:#3a5a6a;padding:.2rem 0;">Cargando tendencia...</div></div>
     <p class="desc">Playas urbanas. Imágenes estáticas actualizadas cada 60 s.</p>
     <div class="img-grid">
       <div class="img-card"><img id="bcn-cam6" src="https://www.bcasa.cat:8888/imatgesaraplatgesbcn/camara6.jpg" alt="Barcelona playa 6" /></div>
       <div class="img-card"><img id="bcn-cam5" src="https://www.bcasa.cat:8888/imatgesaraplatgesbcn/camara5.jpg" alt="Barcelona playa 5" /></div>
       <div class="img-card"><img id="bcn-cam1" src="https://www.bcasa.cat:8888/imatgesaraplatgesbcn/camara1.jpg" alt="Barcelona playa 1" /></div>
     </div>
-    <a class="link-card" href="https://www.skylinewebcams.com/es/webcam/espana/cataluna/barcelona/playa-sant-sebastia.html" target="_blank" rel="noopener"><span class="link-icon">🎥</span><div><div class="link-label">Playa de Sant Sebastià — Skyline Webcams</div><div class="link-url">skylinewebcams.com</div></div></a>
-    <div id="windy-barcelona" class="windy-panel"><div class="windy-toggle" onclick="toggleWindy('windy-barcelona',41.38,2.19)"><span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span><span class="windy-toggle-hint">Clic para ver mapa interactivo</span><span class="windy-chevron">▼</span></div><div class="windy-body"></div></div>
+<a class="link-card" href="https://www.skylinewebcams.com/es/webcam/espana/cataluna/barcelona/playa-sant-sebastia.html" target="_blank" rel="noopener">
+      <span class="link-icon">🎥</span><div><div class="link-label">Playa de Sant Sebastià — Skyline Webcams</div><div class="link-url">skylinewebcams.com</div></div>
+    </a>
+    <div id="windy-barcelona" class="windy-panel">
+      <div class="windy-toggle" onclick="toggleWindy('windy-barcelona',41.38,2.19)">
+        <span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span>
+        <span class="windy-toggle-hint">Clic para ver mapa interactivo</span>
+        <span class="windy-chevron">▼</span>
+      </div>
+      <div class="windy-body"></div>
+    </div>
     <div class="forecast-widget" id="fw-barcelona"><div class="forecast-loading">Cargando previsión...</div></div>
   </section>
+
+  <section class="spot" id="castelldefels">
+    <div class="spot-header"><span class="spot-number">02</span><h3>Castelldefels</h3><span class="spot-badge">17nudos</span></div>
+    <div class="spot-widget" id="sp-castelldefels"><div style="font-size:.65rem;color:#3a5a6a;padding:.2rem 0;">Cargando tendencia...</div></div>
+    <p class="desc">Dos cámaras del Club Nàutic Castelldefels vía 17nudos.com.</p>
+    <div class="embed-grid">
+      <a href="https://www.youtube.com/watch?v=s6YqEV6Fs5M" target="_blank" rel="noopener" style="display:block;text-decoration:none;">
+        <div style="position:relative;width:100%;padding-top:56.25%;background:#0d2b3e;border:1px solid var(--border);border-radius:3px;overflow:hidden;cursor:pointer;">
+          <img src="https://img.youtube.com/vi/s6YqEV6Fs5M/maxresdefault.jpg" alt="Webcam Castelldefels 1" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.src='https://img.youtube.com/vi/s6YqEV6Fs5M/hqdefault.jpg'" />
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <div style="width:52px;height:52px;background:rgba(255,0,0,0.85);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+              <span style="color:#fff;font-size:1.3rem;margin-left:4px;">▶</span>
+            </div>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=oe5GPi_C7Go" target="_blank" rel="noopener" style="display:block;text-decoration:none;">
+        <div style="position:relative;width:100%;padding-top:56.25%;background:#0d2b3e;border:1px solid var(--border);border-radius:3px;overflow:hidden;cursor:pointer;">
+          <img src="https://img.youtube.com/vi/oe5GPi_C7Go/maxresdefault.jpg" alt="Webcam Castelldefels 2" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.src='https://img.youtube.com/vi/oe5GPi_C7Go/hqdefault.jpg'" />
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <div style="width:52px;height:52px;background:rgba(255,0,0,0.85);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+              <span style="color:#fff;font-size:1.3rem;margin-left:4px;">▶</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <a class="link-card" href="https://www.17nudos.com" target="_blank" rel="noopener">
+      <span class="link-icon">🌊</span><div><div class="link-label">17nudos — Webcam + estación meteorológica Castelldefels</div><div class="link-url">17nudos.com</div></div>
+    </a>
+    <div id="windy-castelldefels" class="windy-panel">
+      <div class="windy-toggle" onclick="toggleWindy('windy-castelldefels',41.275,1.975)">
+        <span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span>
+        <span class="windy-toggle-hint">Clic para ver mapa interactivo</span>
+        <span class="windy-chevron">▼</span>
+      </div>
+      <div class="windy-body"></div>
+    </div>
+    <div class="forecast-widget" id="fw-castelldefels"><div class="forecast-loading">Cargando previsión...</div></div>
+  </section>
+
   <section class="spot" id="port-ginesta">
     <div class="spot-header"><span class="spot-number">02</span><h3>Port Ginesta</h3><span class="spot-badge">Castelldefels</span></div>
+    <div class="spot-widget" id="sp-port-ginesta"><div style="font-size:.65rem;color:#3a5a6a;padding:.2rem 0;">Cargando tendencia...</div></div>
     <p class="desc">Puerto deportivo de Port Ginesta. Dos ángulos vía Angelcam.</p>
     <div class="embed-grid">
       <div class="embed-wrap"><iframe src="https://v.angelcam.com/iframe?v=z1nr8jo9l0&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkb21haW4iOiJ3d3cuaW5mb3JjZWxyYS5jb20iLCJjYW1lcmFfaWQiOjQwMzQsImV4cCI6MTY1NTI4MDU4MH0.BH88aJ1VKgaZ_NuhinP7HQ8nrFj-fWTeOIyXNsNfo-g" frameborder="0" allowfullscreen loading="lazy"></iframe></div>
       <div class="embed-wrap"><iframe src="https://v.angelcam.com/iframe?v=6xblmkbkr2&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkb21haW4iOiJpbmZvcmNlbHJhLmNvbSIsImNhbWVyYV9pZCI6MzExMCwiZXhwIjoxNjUyNDQ3MzQ2fQ.BAVVCy_0H3AW32eppqWfjvOykhur-WNJ64jv_yNzx6c" frameborder="0" allowfullscreen loading="lazy"></iframe></div>
     </div>
-    <div id="windy-ginesta" class="windy-panel"><div class="windy-toggle" onclick="toggleWindy('windy-ginesta',41.28,1.97)"><span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span><span class="windy-toggle-hint">Clic para ver mapa interactivo</span><span class="windy-chevron">▼</span></div><div class="windy-body"></div></div>
+    <div id="windy-ginesta" class="windy-panel">
+      <div class="windy-toggle" onclick="toggleWindy('windy-ginesta',41.28,1.97)">
+        <span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span>
+        <span class="windy-toggle-hint">Clic para ver mapa interactivo</span>
+        <span class="windy-chevron">▼</span>
+      </div>
+      <div class="windy-body"></div>
+    </div>
     <div class="forecast-widget" id="fw-ginesta"><div class="forecast-loading">Cargando previsión...</div></div>
   </section>
+
   <section class="spot" id="sitges">
     <div class="spot-header"><span class="spot-number">03</span><h3>Sitges</h3><span class="spot-badge">Aiguadolç · Garraf</span></div>
+    <div class="spot-widget" id="sp-sitges"><div style="font-size:.65rem;color:#3a5a6a;padding:.2rem 0;">Cargando tendencia...</div></div>
     <p class="desc">Sitges y Aiguadolç. Webcam en vivo.</p>
-    <div class="embed-grid"><div class="embed-wrap"><iframe src="https://www.ipcamlive.com/player/player.php?alias=65d33d2760353&autoplay=1&token=rJjnDBVreI2kFLL1TkWL/waq5emYvM/BQnEbhIStbuo=" frameborder="0" allowfullscreen loading="lazy"></iframe></div></div>
-    <div id="windy-sitges" class="windy-panel"><div class="windy-toggle" onclick="toggleWindy('windy-sitges',41.234,1.806)"><span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span><span class="windy-toggle-hint">Clic para ver mapa interactivo</span><span class="windy-chevron">▼</span></div><div class="windy-body"></div></div>
+    <div class="embed-grid">
+      <div class="embed-wrap"><iframe src="https://www.ipcamlive.com/player/player.php?alias=65d33d2760353&autoplay=1&token=rJjnDBVreI2kFLL1TkWL/waq5emYvM/BQnEbhIStbuo=" frameborder="0" allowfullscreen loading="lazy"></iframe></div>
+    </div>
+    <div id="windy-sitges" class="windy-panel">
+      <div class="windy-toggle" onclick="toggleWindy('windy-sitges',41.234,1.806)">
+        <span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span>
+        <span class="windy-toggle-hint">Clic para ver mapa interactivo</span>
+        <span class="windy-chevron">▼</span>
+      </div>
+      <div class="windy-body"></div>
+    </div>
     <div class="forecast-widget" id="fw-sitges"><div class="forecast-loading">Cargando previsión...</div></div>
   </section>
+
   <section class="spot" id="prat">
     <div class="spot-header"><span class="spot-number">04</span><h3>El Prat</h3><span class="spot-badge">Playa Filipinas</span></div>
+    <div class="spot-widget" id="sp-prat"><div style="font-size:.65rem;color:#3a5a6a;padding:.2rem 0;">Cargando tendencia...</div></div>
     <p class="desc">El Prat de Llobregat y Playa Filipinas.</p>
-    <div class="embed-grid"><div class="embed-wrap"><iframe src="https://www.streamingbarcelona.com/plataforma/ajuntament-elprat/embed/" frameborder="0" allowfullscreen loading="lazy"></iframe></div></div>
-    <div id="windy-prat" class="windy-panel"><div class="windy-toggle" onclick="toggleWindy('windy-prat',41.31,2.08)"><span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span><span class="windy-toggle-hint">Clic para ver mapa interactivo</span><span class="windy-chevron">▼</span></div><div class="windy-body"></div></div>
+    <div class="embed-grid">
+      <div class="embed-wrap"><iframe src="https://www.streamingbarcelona.com/plataforma/ajuntament-elprat/embed/" frameborder="0" allowfullscreen loading="lazy"></iframe></div>
+    </div>
+    <div id="windy-prat" class="windy-panel">
+      <div class="windy-toggle" onclick="toggleWindy('windy-prat',41.31,2.08)">
+        <span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span>
+        <span class="windy-toggle-hint">Clic para ver mapa interactivo</span>
+        <span class="windy-chevron">▼</span>
+      </div>
+      <div class="windy-body"></div>
+    </div>
     <div class="forecast-widget" id="fw-prat"><div class="forecast-loading">Cargando previsión...</div></div>
   </section>
+
   <section class="spot" id="masnou">
     <div class="spot-header"><span class="spot-number">05</span><h3>Masnou</h3><span class="spot-badge">Norte de BCN</span></div>
+    <div class="spot-widget" id="sp-masnou"><div style="font-size:.65rem;color:#3a5a6a;padding:.2rem 0;">Cargando tendencia...</div></div>
     <p class="desc">Playa de Masnou.</p>
-    <a class="link-card" href="https://www.camaramar.com/webcam/cataluna_barcelona_masnou" target="_blank" rel="noopener"><span class="link-icon">🎥</span><div><div class="link-label">Masnou — CámaraMar</div><div class="link-url">camaramar.com</div></div></a>
-    <div id="windy-masnou" class="windy-panel"><div class="windy-toggle" onclick="toggleWindy('windy-masnou',41.48,2.32)"><span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span><span class="windy-toggle-hint">Clic para ver mapa interactivo</span><span class="windy-chevron">▼</span></div><div class="windy-body"></div></div>
+    <a class="link-card" href="https://www.camaramar.com/webcam/cataluna_barcelona_masnou" target="_blank" rel="noopener">
+      <span class="link-icon">🎥</span><div><div class="link-label">Masnou — CámaraMar</div><div class="link-url">camaramar.com</div></div>
+    </a>
+    <div id="windy-masnou" class="windy-panel">
+      <div class="windy-toggle" onclick="toggleWindy('windy-masnou',41.48,2.32)">
+        <span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span>
+        <span class="windy-toggle-hint">Clic para ver mapa interactivo</span>
+        <span class="windy-chevron">▼</span>
+      </div>
+      <div class="windy-body"></div>
+    </div>
     <div class="forecast-widget" id="fw-masnou"><div class="forecast-loading">Cargando previsión...</div></div>
   </section>
+
   <section class="spot" id="arenys">
     <div class="spot-header"><span class="spot-number">06</span><h3>Arenys de Mar</h3><span class="spot-badge">Maresme</span></div>
-    <p class="desc">Webcam del Club Nàutic d'Arenys de Mar.</p>
-    <a class="link-card" href="https://www.cnarenys.com/webcam-bnam" target="_blank" rel="noopener"><span class="link-icon">🎥</span><div><div class="link-label">Webcam en directo — Club Nàutic Arenys de Mar</div><div class="link-url">cnarenys.com/webcam-bnam</div></div></a>
-    <div id="windy-arenys" class="windy-panel"><div class="windy-toggle" onclick="toggleWindy('windy-arenys',41.567,2.55)"><span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span><span class="windy-toggle-hint">Clic para ver mapa interactivo</span><span class="windy-chevron">▼</span></div><div class="windy-body"></div></div>
+    <div class="spot-widget" id="sp-arenys"><div style="font-size:.65rem;color:#3a5a6a;padding:.2rem 0;">Cargando tendencia...</div></div>
+    <p class="desc">Webcam del Club Nàutic d'Arenys de Mar — vista a la rada i l'onatge.</p>
+    <a class="link-card" href="https://www.cnarenys.com/webcam-bnam" target="_blank" rel="noopener">
+      <span class="link-icon">⛵</span><div><div class="link-label">Arenys de Mar — Club Nàutic</div><div class="link-url">cnarenys.com/webcam-bnam</div></div>
+    </a>
+    <div id="windy-arenys" class="windy-panel">
+      <div class="windy-toggle" onclick="toggleWindy('windy-arenys',41.567,2.55)">
+        <span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span>
+        <span class="windy-toggle-hint">Clic para ver mapa interactivo</span>
+        <span class="windy-chevron">▼</span>
+      </div>
+      <div class="windy-body"></div>
+    </div>
     <div class="forecast-widget" id="fw-arenys"><div class="forecast-loading">Cargando previsión...</div></div>
   </section>
+
   <section class="spot" id="vilassar">
     <div class="spot-header"><span class="spot-number">07</span><h3>Vilassar de Mar</h3><span class="spot-badge">Maresme</span></div>
+    <div class="spot-widget" id="sp-vilassar"><div style="font-size:.65rem;color:#3a5a6a;padding:.2rem 0;">Cargando tendencia...</div></div>
     <p class="desc">Playa de Vilassar, en el Maresme.</p>
-    <a class="link-card" href="https://platja.click2stream.com/" target="_blank" rel="noopener"><span class="link-icon">🎥</span><div><div class="link-label">Platja Vilassar — Click2Stream</div><div class="link-url">platja.click2stream.com</div></div></a>
-    <div id="windy-vilassar" class="windy-panel"><div class="windy-toggle" onclick="toggleWindy('windy-vilassar',41.50,2.39)"><span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span><span class="windy-toggle-hint">Clic para ver mapa interactivo</span><span class="windy-chevron">▼</span></div><div class="windy-body"></div></div>
+    <a class="link-card" href="https://platja.click2stream.com/" target="_blank" rel="noopener">
+      <span class="link-icon">🎥</span><div><div class="link-label">Vilassar de Mar — Platja</div><div class="link-url">platja.click2stream.com</div></div>
+    </a>
+    <div id="windy-vilassar" class="windy-panel">
+      <div class="windy-toggle" onclick="toggleWindy('windy-vilassar',41.50,2.39)">
+        <span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span>
+        <span class="windy-toggle-hint">Clic para ver mapa interactivo</span>
+        <span class="windy-chevron">▼</span>
+      </div>
+      <div class="windy-body"></div>
+    </div>
     <div class="forecast-widget" id="fw-vilassar"><div class="forecast-loading">Cargando previsión...</div></div>
   </section>
+
   <section class="spot" id="badalona">
     <div class="spot-header"><span class="spot-number">08</span><h3>Badalona</h3><span class="spot-badge">Pont del Petroli</span></div>
+    <div class="spot-widget" id="sp-badalona"><div style="font-size:.65rem;color:#3a5a6a;padding:.2rem 0;">Cargando tendencia...</div></div>
     <p class="desc">Pont del Petroli y Playa de la Mora.</p>
-    <a class="link-card" href="http://cnbadalona.cat/cam/garbi.php" target="_blank" rel="noopener"><span class="link-icon">🎥</span><div><div class="link-label">Webcam CN Badalona — Garbí</div><div class="link-url">cnbadalona.cat</div></div></a>
-    <div id="windy-badalona" class="windy-panel"><div class="windy-toggle" onclick="toggleWindy('windy-badalona',41.45,2.25)"><span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span><span class="windy-toggle-hint">Clic para ver mapa interactivo</span><span class="windy-chevron">▼</span></div><div class="windy-body"></div></div>
+    <a class="link-card" href="http://cnbadalona.cat/cam/garbi.php" target="_blank" rel="noopener">
+      <span class="link-icon">🎥</span><div><div class="link-label">Badalona — Garbí · Club Nàutic</div><div class="link-url">cnbadalona.cat</div></div>
+    </a>
+    <div id="windy-badalona" class="windy-panel">
+      <div class="windy-toggle" onclick="toggleWindy('windy-badalona',41.45,2.25)">
+        <span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span>
+        <span class="windy-toggle-hint">Clic para ver mapa interactivo</span>
+        <span class="windy-chevron">▼</span>
+      </div>
+      <div class="windy-body"></div>
+    </div>
     <div class="forecast-widget" id="fw-badalona"><div class="forecast-loading">Cargando previsión...</div></div>
   </section>
+
   <section class="spot" id="st-pol">
     <div class="spot-header"><span class="spot-number">09</span><h3>Sant Pol de Mar</h3><span class="spot-badge">Maresme</span></div>
+    <div class="spot-widget" id="sp-st-pol"><div style="font-size:.65rem;color:#3a5a6a;padding:.2rem 0;">Cargando tendencia...</div></div>
     <p class="desc">Playa de Sant Pol de Mar.</p>
-    <div class="embed-grid"><div class="embed-wrap"><iframe src="https://webcams.windy.com/webcams/public/embed/player/1618998846/day" frameborder="0" allowfullscreen loading="lazy"></iframe></div></div>
-    <div id="windy-santpol" class="windy-panel"><div class="windy-toggle" onclick="toggleWindy('windy-santpol',41.60,2.62)"><span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span><span class="windy-toggle-hint">Clic para ver mapa interactivo</span><span class="windy-chevron">▼</span></div><div class="windy-body"></div></div>
+    <div class="embed-grid">
+      <div class="embed-wrap"><iframe src="https://webcams.windy.com/webcams/public/embed/player/1618998846/day" frameborder="0" allowfullscreen loading="lazy"></iframe></div>
+    </div>
+    <div id="windy-santpol" class="windy-panel">
+      <div class="windy-toggle" onclick="toggleWindy('windy-santpol',41.60,2.62)">
+        <span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span>
+        <span class="windy-toggle-hint">Clic para ver mapa interactivo</span>
+        <span class="windy-chevron">▼</span>
+      </div>
+      <div class="windy-body"></div>
+    </div>
     <div class="forecast-widget" id="fw-santpol"><div class="forecast-loading">Cargando previsión...</div></div>
   </section>
-</div>
+
+</div><!-- /BCN -->
+
 <div class="province-divider"></div>
+
+<!-- ══════════════════════════════
+     PROVINCIA DE TARRAGONA
+══════════════════════════════ -->
 <div class="province-section">
-  <div class="province-header"><h2>Provincia de Tarragona</h2><span class="province-tag">Costa Daurada</span></div>
+  <div class="province-header">
+    <h2>Provincia de Tarragona</h2>
+    <span class="province-tag">Costa Daurada</span>
+  </div>
+
   <section class="spot" id="tarragona-ciudad">
     <div class="spot-header"><span class="spot-number">T1</span><h3>Tarragona</h3><span class="spot-badge">Balcó del Mediterrani</span></div>
+    <div class="spot-widget" id="sp-tarragona-ciudad"><div style="font-size:.65rem;color:#3a5a6a;padding:.2rem 0;">Cargando tendencia...</div></div>
     <p class="desc">Vista panorámica del mar. Skyline no permite embed — abre en web.</p>
-    <a class="link-card" href="https://www.skylinewebcams.com/es/webcam/espana/cataluna/tarragona/tarragona-balco-del-mediterrani.html" target="_blank" rel="noopener"><span class="link-icon">🎥</span><div><div class="link-label">Tarragona — Balcó del Mediterrani · Skyline Webcams</div><div class="link-url">skylinewebcams.com</div></div></a>
-    <div id="windy-tarragona" class="windy-panel"><div class="windy-toggle" onclick="toggleWindy('windy-tarragona',41.12,1.25)"><span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span><span class="windy-toggle-hint">Clic para ver mapa interactivo</span><span class="windy-chevron">▼</span></div><div class="windy-body"></div></div>
+<a class="link-card" href="https://www.skylinewebcams.com/es/webcam/espana/cataluna/tarragona/tarragona-balco-del-mediterrani.html" target="_blank" rel="noopener">
+      <span class="link-icon">🎥</span><div><div class="link-label">Tarragona — Balcó del Mediterrani · Skyline Webcams</div><div class="link-url">skylinewebcams.com</div></div>
+    </a>
+    <div id="windy-tarragona" class="windy-panel">
+      <div class="windy-toggle" onclick="toggleWindy('windy-tarragona',41.12,1.25)">
+        <span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span>
+        <span class="windy-toggle-hint">Clic para ver mapa interactivo</span>
+        <span class="windy-chevron">▼</span>
+      </div>
+      <div class="windy-body"></div>
+    </div>
     <div class="forecast-widget" id="fw-tarragona"><div class="forecast-loading">Cargando previsión...</div></div>
   </section>
+
   <section class="spot" id="calafell">
     <div class="spot-header"><span class="spot-number">T2</span><h3>Calafell</h3><span class="spot-badge">Costa Daurada</span></div>
+    <div class="spot-widget" id="sp-calafell"><div style="font-size:.65rem;color:#3a5a6a;padding:.2rem 0;">Cargando tendencia...</div></div>
     <p class="desc">Playa de Calafell. Skyline no permite embed — abre en web.</p>
-    <a class="link-card" href="https://www.skylinewebcams.com/es/webcam/espana/cataluna/tarragona/calafell.html" target="_blank" rel="noopener"><span class="link-icon">🎥</span><div><div class="link-label">Calafell · Skyline Webcams</div><div class="link-url">skylinewebcams.com</div></div></a>
-    <div id="windy-calafell" class="windy-panel"><div class="windy-toggle" onclick="toggleWindy('windy-calafell',41.19,1.57)"><span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span><span class="windy-toggle-hint">Clic para ver mapa interactivo</span><span class="windy-chevron">▼</span></div><div class="windy-body"></div></div>
+<a class="link-card" href="https://www.skylinewebcams.com/es/webcam/espana/cataluna/tarragona/calafell.html" target="_blank" rel="noopener">
+      <span class="link-icon">🎥</span><div><div class="link-label">Calafell · Skyline Webcams</div><div class="link-url">skylinewebcams.com</div></div>
+    </a>
+    <div id="windy-calafell" class="windy-panel">
+      <div class="windy-toggle" onclick="toggleWindy('windy-calafell',41.19,1.57)">
+        <span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span>
+        <span class="windy-toggle-hint">Clic para ver mapa interactivo</span>
+        <span class="windy-chevron">▼</span>
+      </div>
+      <div class="windy-body"></div>
+    </div>
     <div class="forecast-widget" id="fw-calafell"><div class="forecast-loading">Cargando previsión...</div></div>
   </section>
+
   <section class="spot" id="torredembarra">
     <div class="spot-header"><span class="spot-number">T3</span><h3>Torredembarra</h3><span class="spot-badge">Costa Daurada</span></div>
+    <div class="spot-widget" id="sp-torredembarra"><div style="font-size:.65rem;color:#3a5a6a;padding:.2rem 0;">Cargando tendencia...</div></div>
     <p class="desc">Olas y viento en directo vía Windy.</p>
-    <div class="embed-grid"><div class="embed-wrap"><iframe src="https://webcams.windy.com/webcams/stream/1657097345" frameborder="0" allowfullscreen loading="lazy"></iframe></div></div>
-    <div id="windy-torredembarra" class="windy-panel"><div class="windy-toggle" onclick="toggleWindy('windy-torredembarra',41.15,1.40)"><span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span><span class="windy-toggle-hint">Clic para ver mapa interactivo</span><span class="windy-chevron">▼</span></div><div class="windy-body"></div></div>
+    <div class="embed-grid">
+      <div class="embed-wrap"><iframe src="https://webcams.windy.com/webcams/stream/1657097345" frameborder="0" allowfullscreen loading="lazy"></iframe></div>
+    </div>
+    <div id="windy-torredembarra" class="windy-panel">
+      <div class="windy-toggle" onclick="toggleWindy('windy-torredembarra',41.15,1.40)">
+        <span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span>
+        <span class="windy-toggle-hint">Clic para ver mapa interactivo</span>
+        <span class="windy-chevron">▼</span>
+      </div>
+      <div class="windy-body"></div>
+    </div>
     <div class="forecast-widget" id="fw-torredembarra"><div class="forecast-loading">Cargando previsión...</div></div>
   </section>
+
   <section class="spot" id="salou">
     <div class="spot-header"><span class="spot-number">T4</span><h3>Salou</h3><span class="spot-badge">Costa Daurada</span></div>
+    <div class="spot-widget" id="sp-salou"><div style="font-size:.65rem;color:#3a5a6a;padding:.2rem 0;">Cargando tendencia...</div></div>
     <p class="desc">Playas de Salou con webcam y previsión en CámaraMar.</p>
-    <a class="link-card" href="https://www.camaramar.com/webcam/platja-llarga-salou" target="_blank" rel="noopener"><span class="link-icon">🎥</span><div><div class="link-label">Platja Llarga — Salou · CámaraMar</div><div class="link-url">camaramar.com</div></div></a>
-    <a class="link-card" href="https://www.camaramar.com/webcam/platja-de-llevant-els-pilons" target="_blank" rel="noopener"><span class="link-icon">🎥</span><div><div class="link-label">Platja de Llevant (Els Pilons) · CámaraMar</div><div class="link-url">camaramar.com</div></div></a>
-    <div id="windy-salou" class="windy-panel"><div class="windy-toggle" onclick="toggleWindy('windy-salou',41.07,1.14)"><span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span><span class="windy-toggle-hint">Clic para ver mapa interactivo</span><span class="windy-chevron">▼</span></div><div class="windy-body"></div></div>
+    <a class="link-card" href="https://www.camaramar.com/webcam/platja-llarga-salou" target="_blank" rel="noopener">
+      <span class="link-icon">🎥</span><div><div class="link-label">Platja Llarga — Salou · CámaraMar</div><div class="link-url">camaramar.com</div></div>
+    </a>
+    <a class="link-card" href="https://www.camaramar.com/webcam/platja-de-llevant-els-pilons" target="_blank" rel="noopener">
+      <span class="link-icon">🎥</span><div><div class="link-label">Platja de Llevant (Els Pilons) — Salou · CámaraMar</div><div class="link-url">camaramar.com</div></div>
+    </a>
+    <div id="windy-salou" class="windy-panel">
+      <div class="windy-toggle" onclick="toggleWindy('windy-salou',41.07,1.14)">
+        <span class="windy-toggle-label">🌬 Windy — Olas &amp; Viento</span>
+        <span class="windy-toggle-hint">Clic para ver mapa interactivo</span>
+        <span class="windy-chevron">▼</span>
+      </div>
+      <div class="windy-body"></div>
+    </div>
     <div class="forecast-widget" id="fw-salou"><div class="forecast-loading">Cargando previsión...</div></div>
   </section>
-</div>
+
+</div><!-- /TAR -->
 </main>
+
+<!-- LAMMA -->
+<div style="max-width:1280px;margin:0 auto;padding:0 1.5rem 4rem;position:relative;z-index:1;">
+  <div class="province-divider" style="margin-bottom:3rem;"></div>
+  <div class="province-header">
+    <h2>Mapa Mediterráneo Occidental</h2>
+    <span class="province-tag">LAMMA · CNR Toscana</span>
+  </div>
+  <a class="link-card" href="https://www.lamma.toscana.it/mare/modelli/vento-mare.php?area=K" target="_blank" rel="noopener">
+    <span class="link-icon">🗺</span>
+    <div>
+      <div class="link-label">Mapa Mediterráneo Occidental — Olas &amp; Viento (área Cataluña / Baleares)</div>
+      <div class="link-url">lamma.toscana.it · Instituto LAMMA CNR Toscana · actualizado cada 6h</div>
+    </div>
+  </a>
+</div>
+
 <footer>
-  <p>Webcams Surf Cataluña · <a href="https://www.dondehayolas.com" target="_blank" rel="noopener">dondehayolas.com</a></p>
-  <p style="margin-top:.4rem;color:#2e4e5e;font-size:.72rem;">Previsión: Open-Meteo Marine API · Potencia: H² × T × 8</p>
+  <p style="color:#3a5a6a;font-size:.78rem;">done by <a href="https://github.com/yosoyjolly" target="_blank" rel="noopener" style="color:var(--accent);">yosoyjolly</a></p>
 </footer>
+
 <script>
+// ═══════════════════════════════════════════════
+// WINDY TOGGLE  — se carga el iframe solo al abrir
+// ═══════════════════════════════════════════════
 function toggleWindy(panelId, lat, lon) {
-  const panel = document.getElementById(panelId);
-  const body = panel.querySelector('.windy-body');
-  const chev = panel.querySelector('.windy-chevron');
+  const panel  = document.getElementById(panelId);
+  const body   = panel.querySelector('.windy-body');
+  const chev   = panel.querySelector('.windy-chevron');
   const isOpen = body.classList.contains('open');
+
   body.classList.toggle('open', !isOpen);
   chev.style.transform = isOpen ? '' : 'rotate(180deg)';
   panel.querySelector('.windy-toggle').style.borderBottomColor = isOpen ? 'transparent' : 'var(--border)';
+
+  // Inject iframe only once
   if (!isOpen && !body.querySelector('iframe')) {
-    const url = `https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°C&metricWind=km/h&zoom=10&overlay=waves&product=ecmwf&level=surface&lat=${lat}&lon=${lon}&detailLat=${lat}&detailLon=${lon}&detail=true&pressure=true&message=true`;
+    const zoom = 10;
+    const url  = `https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°C&metricWind=km/h&zoom=${zoom}&overlay=waves&product=ecmwf&level=surface&lat=${lat}&lon=${lon}&detailLat=${lat}&detailLon=${lon}&detail=true&pressure=true&message=true`;
     const iframe = document.createElement('iframe');
     iframe.src = url;
     iframe.setAttribute('frameborder', '0');
@@ -227,74 +576,296 @@ function toggleWindy(panelId, lat, lon) {
     body.appendChild(iframe);
   }
 }
+
+// ═══════════════════════════════════════════════
+// SPOTS
+// ═══════════════════════════════════════════════
+// Sparkline ID map: fw-id → section id
+const SP_MAP = {
+  'fw-barcelona':     'barcelona-ciudad',
+  'fw-castelldefels': 'castelldefels',
+  'fw-ginesta':       'port-ginesta',
+  'fw-sitges':        'sitges',
+  'fw-prat':          'prat',
+  'fw-masnou':        'masnou',
+  'fw-arenys':        'arenys',
+  'fw-vilassar':      'vilassar',
+  'fw-badalona':      'badalona',
+  'fw-santpol':       'st-pol',
+  'fw-tarragona':     'tarragona-ciudad',
+  'fw-calafell':      'calafell',
+  'fw-torredembarra': 'torredembarra',
+  'fw-salou':         'salou',
+};
+
 const SPOTS = [
-  { id: 'fw-barcelona', name: 'Barcelona', lat: 41.38, lon: 2.19 },
-  { id: 'fw-ginesta', name: 'Port Ginesta', lat: 41.28, lon: 1.97 },
-  { id: 'fw-sitges', name: 'Sitges', lat: 41.234, lon: 1.806 },
-  { id: 'fw-prat', name: 'El Prat', lat: 41.31, lon: 2.08 },
-  { id: 'fw-masnou', name: 'Masnou', lat: 41.48, lon: 2.32 },
-  { id: 'fw-arenys', name: 'Arenys de Mar', lat: 41.567, lon: 2.55 },
-  { id: 'fw-vilassar', name: 'Vilassar de Mar', lat: 41.50, lon: 2.39 },
-  { id: 'fw-badalona', name: 'Badalona', lat: 41.45, lon: 2.25 },
-  { id: 'fw-santpol', name: 'Sant Pol de Mar', lat: 41.60, lon: 2.62 },
-  { id: 'fw-tarragona', name: 'Tarragona', lat: 41.12, lon: 1.25 },
-  { id: 'fw-calafell', name: 'Calafell', lat: 41.19, lon: 1.57 },
-  { id: 'fw-torredembarra', name: 'Torredembarra', lat: 41.15, lon: 1.40 },
-  { id: 'fw-salou', name: 'Salou', lat: 41.07, lon: 1.14 },
+  { id: 'fw-barcelona',     name: 'Barcelona',       lat: 41.38,  lon: 2.19  },
+  { id: 'fw-castelldefels', name: 'Castelldefels',   lat: 41.275, lon: 1.975 },
+  { id: 'fw-ginesta',       name: 'Port Ginesta',    lat: 41.28,  lon: 1.97  },
+  { id: 'fw-sitges',        name: 'Sitges',          lat: 41.234, lon: 1.806 },
+  { id: 'fw-prat',          name: 'El Prat',         lat: 41.31,  lon: 2.08  },
+  { id: 'fw-masnou',        name: 'Masnou',          lat: 41.48,  lon: 2.32  },
+  { id: 'fw-arenys',        name: 'Arenys de Mar',   lat: 41.567, lon: 2.55  },
+  { id: 'fw-vilassar',      name: 'Vilassar de Mar', lat: 41.50,  lon: 2.39  },
+  { id: 'fw-badalona',      name: 'Badalona',        lat: 41.45,  lon: 2.25  },
+  { id: 'fw-santpol',       name: 'Sant Pol de Mar', lat: 41.60,  lon: 2.62  },
+  { id: 'fw-tarragona',     name: 'Tarragona',       lat: 41.12,  lon: 1.25  },
+  { id: 'fw-calafell',      name: 'Calafell',        lat: 41.19,  lon: 1.57  },
+  { id: 'fw-torredembarra', name: 'Torredembarra',   lat: 41.15,  lon: 1.40  },
+  { id: 'fw-salou',         name: 'Salou',           lat: 41.07,  lon: 1.14  },
 ];
-function degToCompass(d) { return ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSO','SO','OSO','O','ONO','NO','NNO'][Math.round(d/22.5)%16]; }
-function waveArrow(d) { return ['↓','↙','←','↖','↑','↗','→','↘'][Math.round(((d+180)%360)/45)%8]; }
-function windArrow(d) { return ['↓','↙','←','↖','↑','↗','→','↘'][Math.round(d/45)%8]; }
-function wavePower(h, t) { return Math.round(h * h * t * 8); }
-function powerColor(p) { if (p < 5) return '#3a5a6a'; if (p < 15) return '#6d96aa'; if (p < 30) return '#f39c12'; if (p < 60) return '#2ecc71'; return '#00c9d4'; }
-function stars(h, t) { if (h < 0.15) return 0; const s = h * (t / 6); if (s < 0.1) return 0; if (s < 0.25) return 1; if (s < 0.5) return 2; if (s < 0.8) return 3; if (s < 1.2) return 4; return 5; }
+
+// ═══════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════
+function degToCompass(d) {
+  return ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSO','SO','OSO','O','ONO','NO','NNO'][Math.round(d/22.5)%16];
+}
+function waveArrow(d) {
+  // Arrow shows where swell is heading (inverted from origin)
+  return ['↓','↙','←','↖','↑','↗','→','↘'][Math.round(((d+180)%360)/45)%8];
+}
+function windArrow(d) {
+  return ['↓','↙','←','↖','↑','↗','→','↘'][Math.round(d/45)%8];
+}
+function rating(h, t) {
+  if (h < 0.15)              return 'flat';
+  if (h >= 0.4 && t >= 7)   return 'good';
+  if (h >= 0.25 && t >= 5)  return 'fair';
+  return 'poor';
+}
+// Wave power: using proper formula P = ρg²/(64π) × H² × T
+// Simplified constant ≈ 0.5 kW/m per unit → but for surf rating we scale to kJ display
+// Real formula gives ~0.5×H²×T in kW/m. For Mediterráneo (small waves) we show it as-is
+// but multiply by a factor that makes 0.5m/8s wave read ~10 kJ (comparable to surf apps)
+function wavePower(h, t) {
+  // E = 0.5 * ρ * g * H² * T / (16π) scaled for display
+  // Using: P_display = H² × T × 8  → 0.5m × 8s = 16, 1m × 10s = 80
+  return Math.round(h * h * t * 8);
+}
+function powerColor(p) {
+  if (p < 5)  return '#3a5a6a';   // flat/no surf
+  if (p < 15) return '#6d96aa';   // very small
+  if (p < 30) return '#f39c12';   // small but rideable
+  if (p < 60) return '#2ecc71';   // decent
+  return '#00c9d4';               // powerful
+}
+
+// Stars: calibración manual
+// 0 = menos de 0.5m (insignificante)
+// 1 = 0.5m o menos con 5s o menos (pequeña)
+// 2 = 0.5m+ con algo de periodo, o 0.7m con poco
+// 3-4 = buenas condiciones
+// 5 = muy potente
+function stars(h, t) {
+  if (h < 0.5) return 0;                        // menos de 0.5m → 0 estrellas
+  if (h <= 0.5 && t <= 5) return 1;             // 0.5m con periodo corto → 1 estrella
+  const score = h * (t / 6);
+  if (score < 0.35) return 1;
+  if (score < 0.6)  return 2;
+  if (score < 0.9)  return 3;
+  if (score < 1.3)  return 4;
+  return 5;
+}
 function starsHTML(n) {
   const colors = ['#3a5a6a','#f39c12','#f39c12','#2ecc71','#2ecc71','#00c9d4'];
-  const labels = ['Plana','Pequeña','Pequeña','Buenas','Buenas','Potente'];
-  const col = colors[Math.min(n,5)];
+  const labels = ['Plano','Pequeña','Pequeña','Buenas','Buenas','Potente'];
+  const col = colors[Math.min(n, 5)];
   let s = '';
-  for (let i = 1; i <= 5; i++) s += `<span style="color:${i<=n?col:'#1e3a4a'};font-size:.85rem;">★</span>`;
-  return `<span style="letter-spacing:1px;display:inline-flex;align-items:center;">${s}<span style="font-size:.65rem;color:${n===0?'#3a5a6a':col};margin-left:.35rem;">${labels[Math.min(n,5)]}</span></span>`;
+  for (let i = 1; i <= 5; i++) {
+    s += `<span style="color:${i<=n?col:'#1e3a4a'};font-size:.85rem;">★</span>`;
+  }
+  const label = `<span style="font-size:.65rem;color:${n===0?'#3a5a6a':col};margin-left:.35rem;font-weight:500;letter-spacing:.03em;">${labels[Math.min(n,5)]}</span>`;
+  return `<span style="letter-spacing:1px;display:inline-flex;align-items:center;">${s}${label}</span>`;
 }
-function formatDay(s) { const d = new Date(s); return ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][d.getDay()] + ' ' + d.getDate(); }
+function formatDay(s) {
+  const d = new Date(s);
+  return ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][d.getDay()] + ' ' + d.getDate();
+}
+
+// ═══════════════════════════════════════════════
+// FETCH
+// ═══════════════════════════════════════════════
 async function fetchForecast(lat, lon) {
   const [mr, wr] = await Promise.all([
     fetch(`https://marine-api.open-meteo.com/v1/marine?latitude=${lat}&longitude=${lon}&hourly=wave_height,wave_direction,wave_period,swell_wave_height,swell_wave_period&timezone=Europe%2FMadrid&forecast_days=3`),
     fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=wind_speed_10m,wind_direction_10m&timezone=Europe%2FMadrid&forecast_days=3`)
   ]);
-  const m = await mr.json(), w = await wr.json();
-  return m.hourly.time.map((t, i) => ({ time: t, waveH: m.hourly.wave_height[i]??0, waveDir: m.hourly.wave_direction[i]??0, wavePeriod: m.hourly.wave_period[i]??0, swellH: m.hourly.swell_wave_height[i]??0, swellT: m.hourly.swell_wave_period[i]??0, windSpd: w.hourly.wind_speed_10m[i]??0, windDir: w.hourly.wind_direction_10m[i]??0 }));
+  const m = await mr.json();
+  const w = await wr.json();
+  return m.hourly.time.map((t, i) => ({
+    time:       t,
+    waveH:      m.hourly.wave_height[i]       ?? 0,
+    waveDir:    m.hourly.wave_direction[i]     ?? 0,
+    wavePeriod: m.hourly.wave_period[i]        ?? 0,
+    swellH:     m.hourly.swell_wave_height[i]  ?? 0,
+    swellT:     m.hourly.swell_wave_period[i]  ?? 0,
+    windSpd:    w.hourly.wind_speed_10m[i]     ?? 0,
+    windDir:    w.hourly.wind_direction_10m[i] ?? 0,
+  }));
 }
+
+// ═══════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════
 function renderWidget(id, name, data) {
   const el = document.getElementById(id);
   if (!el) return;
+
   const HOURS = [6,9,12,15,18];
   const days = {};
-  data.forEach(r => { const h = new Date(r.time).getHours(); if (!HOURS.includes(h)) return; const k = r.time.slice(0,10); (days[k]=days[k]||[]).push({...r,h}); });
+  data.forEach(r => {
+    const h = new Date(r.time).getHours();
+    if (!HOURS.includes(h)) return;
+    const k = r.time.slice(0,10);
+    (days[k] = days[k]||[]).push({ ...r, h });
+  });
+
   const keys = Object.keys(days).slice(0,3);
-  if (!keys.length) { el.innerHTML='<div class="forecast-error">Sin datos.</div>'; return; }
-  let maxP = 40;
-  keys.forEach(k => days[k].forEach(r => { const p=wavePower(r.waveH,r.wavePeriod); if(p>maxP) maxP=p; }));
-  const tabs = keys.map((k,i) => `<button class="day-tab${i?'':' active'}" onclick="switchDay('${id}','${k}')">${i===0?'Hoy':i===1?'Mañana':formatDay(k)}</button>`).join('');
-  const panels = keys.map((k,di) => {
+  if (!keys.length) { el.innerHTML = '<div class="forecast-error">Sin datos.</div>'; return; }
+
+  // Max power for bar scaling
+  let maxP = 1;
+  keys.forEach(k => days[k].forEach(r => { const p = wavePower(r.waveH, r.wavePeriod); if(p>maxP) maxP=p; }));
+  maxP = Math.max(maxP, 40); // minimum scale for med waves
+
+  const tabs = keys.map((k,i) =>
+    `<button class="day-tab${i?'':' active'}" onclick="switchDay('${id}','${k}')">${i===0?'Hoy':i===1?'Mañana':formatDay(k)}</button>`
+  ).join('');
+
+  const panels = keys.map((k, di) => {
     const rows = days[k].map(r => {
-      const pw=wavePower(r.waveH,r.wavePeriod), st=stars(r.waveH,r.wavePeriod), pct=Math.round(pw/maxP*100), pc=powerColor(pw);
-      return `<tr><td class="hour-label">${r.h.toString().padStart(2,'0')}h</td><td>${starsHTML(st)}</td><td><span class="wave-val" style="color:${pc}">${r.waveH.toFixed(1)}m</span></td><td class="period-val">${r.wavePeriod.toFixed(0)}s</td><td><span class="dir-arrow">${waveArrow(r.waveDir)}</span> <span style="font-size:.68rem;color:var(--muted)">${degToCompass(r.waveDir)}</span></td><td><div class="power-cell"><div class="power-bar-bg"><div class="power-bar-fill" style="width:${pct}%;background:${pc}"></div></div><span class="power-label" style="color:${pc}">${pw}<span style="font-size:.6rem;color:var(--muted)">kJ</span></span></div></td><td style="color:var(--muted);font-size:.75rem">${r.swellH.toFixed(1)}m ${r.swellT.toFixed(0)}s</td><td><div class="wind-cell"><span class="dir-arrow">${windArrow(r.windDir)}</span><span>${Math.round(r.windSpd)}<span style="font-size:.62rem;color:var(--muted)">km/h</span></span></div></td></tr>`;
+      const rt  = rating(r.waveH, r.wavePeriod);
+      const pw  = wavePower(r.waveH, r.wavePeriod);
+      const st  = stars(r.waveH, r.wavePeriod);
+      const pct = Math.round((pw / maxP) * 100);
+      const pc  = powerColor(pw);
+      return `<tr>
+        <td class="hour-label">${r.h.toString().padStart(2,'0')}h</td>
+        <td>${starsHTML(st)}</td>
+        <td><span class="wave-val" style="color:${pc}">${r.waveH.toFixed(1)}m</span></td>
+        <td class="period-val">${r.wavePeriod.toFixed(0)}s</td>
+        <td><span class="dir-arrow">${waveArrow(r.waveDir)}</span> <span style="font-size:.68rem;color:var(--muted)">${degToCompass(r.waveDir)}</span></td>
+        <td>
+          <div class="power-cell">
+            <div class="power-bar-bg"><div class="power-bar-fill" style="width:${pct}%;background:${pc}"></div></div>
+            <span class="power-label" style="color:${pc}">${pw}<span style="font-size:.6rem;color:var(--muted)">kJ</span></span>
+          </div>
+        </td>
+        <td style="color:var(--muted);font-size:.75rem">${r.swellH.toFixed(1)}m ${r.swellT.toFixed(0)}s</td>
+        <td>
+          <div class="wind-cell">
+            <span class="dir-arrow">${windArrow(r.windDir)}</span>
+            <span>${Math.round(r.windSpd)}<span style="font-size:.62rem;color:var(--muted)">km/h</span></span>
+          </div>
+        </td>
+      </tr>`;
     }).join('');
-    return `<div class="forecast-panel" data-key="${k}" style="display:${di?'none':'block'}"><table class="forecast-table"><thead><tr><th>Hora</th><th>★</th><th>Ola</th><th>Per.</th><th>Dir.</th><th>Potencia</th><th>Swell</th><th>Viento</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+
+    return `<div class="forecast-panel" data-key="${k}" style="display:${di?'none':'block'}">
+      <table class="forecast-table">
+        <thead><tr><th>Hora</th><th>★</th><th>Ola</th><th>Per.</th><th>Dir.</th><th>Potencia</th><th>Swell</th><th>Viento</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
   }).join('');
+
   const t = new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
-  el.innerHTML = `<div class="forecast-header"><span class="forecast-title">📊 Previsión · ${name}</span><span class="forecast-updated">${t} · Open-Meteo</span></div><div class="forecast-days">${tabs}</div>${panels}`;
+  el.innerHTML = `
+    <div class="forecast-header">
+      <span class="forecast-title">📊 Previsión · ${name}</span>
+      <span class="forecast-updated">${t} · Open-Meteo</span>
+    </div>
+    <div class="forecast-days">${tabs}</div>
+    ${panels}`;
 }
+
 function switchDay(cid, key) {
   const el = document.getElementById(cid);
   el.querySelectorAll('.forecast-panel').forEach(p => p.style.display = p.dataset.key===key?'block':'none');
   el.querySelectorAll('.day-tab').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes(`'${key}'`)));
 }
+
+// ═══════════════════════════════════════════════
+// SPOT WIDGET — Pills (now) + Bars (today)
+// ═══════════════════════════════════════════════
+function barColor(h, t) {
+  if (h < 0.5)             return '#2e4e5e'; // flat
+  if (h >= 0.8 && t >= 8) return '#00c9d4'; // good
+  if (h >= 0.5 && t >= 6) return '#2ecc71'; // fair
+  return '#f39c12';                          // small
+}
+
+function renderSparkline(sectionId, data) {
+  const wrap = document.getElementById('sp-' + sectionId);
+  if (!wrap) return;
+
+  const now = new Date();
+  const today = now.toISOString().slice(0,10);
+  const nowH  = now.getHours();
+
+  // Current row = closest hour
+  const todayData = data.filter(r => r.time.startsWith(today));
+  if (!todayData.length) { wrap.style.display='none'; return; }
+
+  const current = todayData.reduce((best, r) => {
+    const rh = new Date(r.time).getHours();
+    return Math.abs(rh - nowH) < Math.abs(new Date(best.time).getHours() - nowH) ? r : best;
+  }, todayData[0]);
+
+  // Stars for current
+  const st = stars(current.waveH, current.wavePeriod);
+  const stCol = ['#2e4e5e','#f39c12','#f39c12','#2ecc71','#2ecc71','#00c9d4'][Math.min(st,5)];
+
+  // Pills
+  const waveCol  = barColor(current.waveH, current.wavePeriod);
+  const periodCol = current.wavePeriod >= 8 ? '#00c9d4' : current.wavePeriod >= 6 ? '#2ecc71' : '#6d96aa';
+  const windCol   = current.windSpd > 30 ? '#e74c3c' : current.windSpd > 20 ? '#f39c12' : '#6d96aa';
+
+  const pillsHTML = `
+    <div class="sw-pills">
+      <div class="sw-pill">
+        <span class="sw-pill-icon">🌊</span>
+        <span class="sw-pill-val" style="color:${waveCol}">${current.waveH.toFixed(1)}</span>
+        <span class="sw-pill-unit">m</span>
+      </div>
+      <div class="sw-pill">
+        <span class="sw-pill-icon">⏱</span>
+        <span class="sw-pill-val" style="color:${periodCol}">${Math.round(current.wavePeriod)}</span>
+        <span class="sw-pill-unit">s</span>
+      </div>
+      <div class="sw-pill">
+        <span class="sw-pill-icon">💨</span>
+        <span class="sw-pill-val" style="color:${windCol}">${Math.round(current.windSpd)}</span>
+        <span class="sw-pill-unit">km/h</span>
+      </div>
+      <div class="sw-pill">
+        <span style="letter-spacing:1px;font-size:.85rem">${'★'.repeat(st)}${'☆'.repeat(5-st)}</span>
+        <span class="sw-pill-label" style="color:${stCol}">${'Plano,Pequeña,Pequeña,Buenas,Buenas,Potente'.split(',')[Math.min(st,5)]}</span>
+      </div>
+    </div>`;
+
+  wrap.innerHTML = pillsHTML;
+}
+
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
 SPOTS.forEach(s => {
-  fetchForecast(s.lat, s.lon).then(d => renderWidget(s.id, s.name, d)).catch(() => { const e=document.getElementById(s.id); if(e) e.innerHTML='<div class="forecast-error">Error cargando datos.</div>'; });
+  fetchForecast(s.lat, s.lon)
+    .then(d => { renderWidget(s.id, s.name, d); renderSparkline(SP_MAP[s.id] || s.id.replace('fw-',''), d); })
+    .catch(() => { const e=document.getElementById(s.id); if(e) e.innerHTML='<div class="forecast-error">Error cargando datos.</div>'; });
 });
-setInterval(() => { const t=Date.now(); ['bcn-cam6','bcn-cam5','bcn-cam1'].forEach(id => { const el=document.getElementById(id); if(el) el.src=el.src.split('?')[0]+'?t='+t; }); }, 60000);
+
+// Auto-refresh BCN static images
+setInterval(() => {
+  const t = Date.now();
+  ['bcn-cam6','bcn-cam5','bcn-cam1'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.src = el.src.split('?')[0] + '?t=' + t;
+  });
+}, 60000);
 </script>
 </body>
 </html>
