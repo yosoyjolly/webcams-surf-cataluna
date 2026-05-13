@@ -177,66 +177,6 @@
     footer { text-align: center; padding: 2rem; border-top: 1px solid var(--border); font-size: .78rem; color: var(--muted); position: relative; z-index: 1; }
     footer a { color: var(--accent); text-decoration: none; }
 
-    /* ══════════════════════════════════════
-       AI SURF TIP BANNER
-    ══════════════════════════════════════ */
-    .ai-banner-wrap {
-      max-width: 1280px; margin: 1.5rem auto 0; padding: 0 1.5rem; position: relative; z-index: 1;
-    }
-    .ai-banner {
-      background: linear-gradient(135deg, rgba(0,201,212,0.07) 0%, rgba(0,201,212,0.02) 100%);
-      border: 1px solid rgba(0,201,212,0.3);
-      border-radius: 4px;
-      padding: 1rem 1.25rem 1.1rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .ai-banner::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    }
-    .ai-banner-header {
-      display: flex; align-items: center; gap: .6rem; margin-bottom: .65rem; flex-wrap: wrap;
-    }
-    .ai-banner-title {
-      font-size: .68rem; font-weight: 700; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--accent);
-    }
-    .ai-banner-badge {
-      font-size: .58rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
-      color: var(--ocean); background: var(--accent); padding: .15rem .48rem; border-radius: 1px;
-    }
-    .ai-banner-model {
-      font-size: .58rem; color: var(--muted); margin-left: auto;
-    }
-    .ai-banner-text {
-      font-size: .88rem; line-height: 1.65; color: var(--text); font-weight: 300;
-      margin-bottom: .45rem;
-    }
-    .ai-banner-text:last-child { margin-bottom: 0; }
-    .ai-banner-loading {
-      font-size: .8rem; color: var(--muted); font-style: italic;
-      display: flex; align-items: center; gap: .5rem;
-    }
-    .ai-dots span {
-      display: inline-block; width: 5px; height: 5px; border-radius: 50%;
-      background: var(--accent); opacity: .3;
-      animation: ai-pulse 1.2s ease-in-out infinite;
-    }
-    .ai-dots span:nth-child(2) { animation-delay: .2s; }
-    .ai-dots span:nth-child(3) { animation-delay: .4s; }
-    @keyframes ai-pulse { 0%,100%{opacity:.2} 50%{opacity:1} }
-    .ai-banner-error { font-size: .78rem; color: var(--muted); font-style: italic; }
-    .ai-key-warn {
-      font-size: .75rem; color: var(--fair); background: rgba(243,156,18,0.08);
-      border: 1px solid rgba(243,156,18,0.2); border-radius: 3px;
-      padding: .5rem .8rem; line-height: 1.5;
-    }
-    .ai-key-warn a { color: var(--fair); }
-
     @media (max-width: 600px) {
       header { padding: 2.5rem 1rem 2rem; }
       main { padding: 0 1rem 4rem; }
@@ -287,26 +227,6 @@
     </div>
   </div>
 </nav>
-
-<!-- ══════════════════════════════
-     AI SURF TIP
-══════════════════════════════ -->
-<div class="ai-banner-wrap">
-  <div class="ai-banner">
-    <div class="ai-banner-header">
-      <span style="font-size:1.1rem">🤖</span>
-      <span class="ai-banner-title">Recomendación del día</span>
-      <span class="ai-banner-badge">IA · Llama 3.1</span>
-      <span class="ai-banner-model">Groq · Open-Meteo</span>
-    </div>
-    <div id="ai-body">
-      <div class="ai-banner-loading">
-        <span>Analizando condiciones de todos los spots</span>
-        <span class="ai-dots"><span></span><span></span><span></span></span>
-      </div>
-    </div>
-  </div>
-</div>
 
 <main>
 
@@ -939,120 +859,12 @@ function renderSparkline(sectionId, data) {
 
 
 // ═══════════════════════════════════════════════
-// AI SURF RECOMMENDATION — Groq + Llama 3.1
-// Obtén tu clave gratis en https://console.groq.com
-// ═══════════════════════════════════════════════
-const GROQ_KEY = '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';
-
-async function getAISurfTip(allSpotsData) {
-  const aiBody = document.getElementById('ai-body');
-
-  if (!GROQ_KEY || GROQ_KEY === 'TU_CLAVE_GROQ_AQUÍ') {
-    aiBody.innerHTML = `<div class="ai-key-warn">
-      ⚠️ Añade tu clave de Groq en el código (<code>GROQ_KEY</code>) para activar la recomendación IA.<br>
-      Clave gratuita en <a href="https://console.groq.com" target="_blank">console.groq.com</a>
-    </div>`;
-    return;
-  }
-
-  const now   = new Date();
-  const today = now.toISOString().slice(0, 10);
-  const nowH  = now.getHours();
-
-  const conditions = allSpotsData.map(({ name, data }) => {
-    const todayData = data.filter(r => r.time.startsWith(today));
-    if (!todayData.length) return null;
-    const cur = todayData.reduce((best, r) =>
-      Math.abs(new Date(r.time).getHours() - nowH) < Math.abs(new Date(best.time).getHours() - nowH) ? r : best
-    , todayData[0]);
-    return { name, waveH: cur.waveH, wavePeriod: cur.wavePeriod, waveDir: degToCompass(cur.waveDir), windSpd: Math.round(cur.windSpd), windDir: degToCompass(cur.windDir) };
-  }).filter(Boolean);
-
-  const spotsText = conditions.map(c =>
-    `• ${c.name}: olas ${c.waveH.toFixed(1)}m periodo ${c.wavePeriod.toFixed(0)}s dir ${c.waveDir}, viento ${c.windSpd}km/h ${c.windDir}`
-  ).join('\n');
-
-  const fecha = now.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
-
-  const prompt = `Eres un surfer local que conoce la costa de Cataluña de memoria, playa por playa. Hablas como un amigo que acaba de mirar el parte: directo, natural, sin rodeos. Hoy es ${fecha}.
-
-ORIENTACIÓN EXACTA DE CADA SPOT — esto es lo más importante para tu análisis:
-
-MARESME:
-- Masnou: mira al E/ENE. La más expuesta al NE de todo el Maresme sur. Con NE se pica mucho. Con E puro funciona.
-- Badalona: mira al E/SE. Playa larga sin abrigo real. Con NE se deteriora, con E/SE puede tener algo.
-- Vilassar de Mar: mira al SE/SSE. La marina da algo de abrigo. Con NE ese mismo viento le llega más lateral — puede estar más limpia que Masnou o Badalona con ese viento. Capta bien el swell del SE.
-- Arenys de Mar: mira al ESE. El puerto al norte da algo de sombra al NE. Con NE moderado puede estar más organizada que Masnou.
-- Sant Pol de Mar: mira al SE. La más protegida del NE del Maresme, el relieve costero la resguarda. Recibe bien E y SE. Con NE fuerte es donde primero se puede surfear algo decente.
-
-BARCELONA CENTRAL:
-- Barceloneta: mira al SE. Espigones cada 200m. Con NE recibe viento lateral-cruzado.
-- Bogatell / Mar Bella: miran al ESE, más abiertas al NE que Barceloneta. Mar Bella capta mejor el NE pero también se pica antes.
-
-BARCELONA SUR / GARRAF:
-- El Prat (Filipines): mira al SE. Sin espigón relevante. Capta bien el SE/S.
-- Castelldefels: mira al SSE. Espigones grandes cada 500m. Con NE queda en abrigo lateral — puede estar sorprendentemente más limpia que las playas de BCN mientras el norte está picado. Capta muy bien swell del SSE/S.
-- Port Ginesta: dentro de una marina, muy abrigado. Solo funciona con swell grande que entre por la bocana. No sirve para días normales.
-- Sitges: mira al S/SSO. La más girada hacia el sur de toda la costa. Capta swell del S y SSO que al resto no llega. Con NE está completamente en abrigo offshore.
-
-TARRAGONA / COSTA DAURADA:
-- Calafell: mira al SSE. Espigones bien posicionados. El más consistente del sur, funciona con SE y SSE.
-- Torredembarra: mira al SSE/S. Sin grandes espigones. Capta swell del S.
-- Salou: mira al S/SSO. La más meridional. Capta swell del S y SSO que otros no reciben.
-
-COSTA BRAVA / GIRONA (sin datos hoy): orientada al E y SE (Roses, L'Escala, Palamós). Activa con NE/ENE. Si las condiciones generales lo sugieren, menciónala brevemente.
-
-ESCALA DE CALIDAD:
-- Periodo <6s = choppy, corto, poco disfrutable. 7-8s = rideable. >9s = olas organizadas.
-- <0.5m = plano. 0.6-0.8m = pequeño pero posible. >1m = buenas condiciones mediterráneas.
-- Viento onshore >20km/h = mar picado. Offshore = mar ordenado aunque no haya mucho swell.
-
-CONDICIONES DE HOY (spot por spot):
-${spotsText}
-
-INSTRUCCIONES:
-Agrupa por zonas (Maresme, Barcelona, Garraf/sur, Tarragona). Para cada zona, UNA o DOS frases que cuenten qué está pasando ahí y qué spot concreto dentro de la zona vale más la pena según la orientación. Luego una conclusión natural de 1-2 frases: dónde ir si buscas lo más potente, y dónde si prefieres algo más tranquilo. Sin frases robóticas ni repetitivas. Sin títulos, sin guiones, sin markdown. Máximo 110 palabras. Si todo está plano, dilo sin rodeos.`;
-
-  try {
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${GROQ_KEY}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'llama-3.1-8b-instant',
-        messages: [{ role: 'user', content: prompt }],
-        max_tokens: 500,
-        temperature: 0.65,
-      }),
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
-    const text = json.choices?.[0]?.message?.content?.trim();
-    if (!text) throw new Error('empty');
-    // Renderizar cada línea no vacía como párrafo separado
-    const paragraphs = text.split('\n').map(l => l.trim()).filter(Boolean)
-      .map(l => `<p class="ai-banner-text">${l}</p>`).join('');
-    aiBody.innerHTML = paragraphs;
-  } catch (err) {
-    aiBody.innerHTML = `<div class="ai-banner-error">No se pudo obtener la recomendación (${err.message}).</div>`;
-  }
-}
-
-// ═══════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════
-const _allSpotsData = [];
-const _promises = SPOTS.map(s =>
+SPOTS.forEach(s => {
   fetchForecast(s.lat, s.lon)
-    .then(d => {
-      renderWidget(s.id, s.name, d);
-      renderSparkline(SP_MAP[s.id] || s.id.replace('fw-',''), d);
-      _allSpotsData.push({ name: s.name, data: d });
-    })
-    .catch(() => { const e=document.getElementById(s.id); if(e) e.innerHTML='<div class="forecast-error">Error cargando datos.</div>'; })
-);
-
-Promise.allSettled(_promises).then(() => {
-  if (_allSpotsData.length) getAISurfTip(_allSpotsData);
+    .then(d => { renderWidget(s.id, s.name, d); renderSparkline(SP_MAP[s.id] || s.id.replace('fw-',''), d); })
+    .catch(() => { const e=document.getElementById(s.id); if(e) e.innerHTML='<div class="forecast-error">Error cargando datos.</div>'; });
 });
 
 // Auto-refresh BCN static images
